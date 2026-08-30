@@ -265,7 +265,7 @@ body {
   color: #FFFFFF;
 }
 
-.hero-title span {
+.hero-title-highlight {
   background: linear-gradient(135deg, #FFF 30%, var(--accent-gold-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

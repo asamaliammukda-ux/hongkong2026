@@ -18,11 +18,16 @@
     activeDayFilter: 'ALL',
     activeBudgetFilter: 'ALL',
     searchQuery: '',
-    targetDepartureDate: new Date(document.getElementById('hero').dataset.departure)
+    targetDepartureDate: null
   };
 
   // DOM Elements Cache
   const elements = {
+    heroSubtitle: document.getElementById('heroSubtitle'),
+    heroTitleMain: document.getElementById('heroTitleMain'),
+    heroTitleHighlight: document.getElementById('heroTitleHighlight'),
+    pillDatesText: document.getElementById('pillDatesText'),
+    pillHotelText: document.getElementById('pillHotelText'),
     cdDays: document.getElementById('cd-days'),
     cdHours: document.getElementById('cd-hours'),
     cdMinutes: document.getElementById('cd-minutes'),
@@ -49,12 +54,35 @@
 
   document.addEventListener('DOMContentLoaded', initApp);
 
-  function initApp() {
+  async function initApp() {
     initTheme();
-    startCountdown();
     setupEventListeners();
+    await loadTripInfo();
+    startCountdown();
     fetchAppData();
     registerServiceWorker();
+  }
+
+  /**
+   * Fetch trip-info.json and populate hero header (title, subtitle, dates, hotel, departure date)
+   */
+  async function loadTripInfo() {
+    try {
+      const res = await fetch('data/trip-info.json');
+      if (!res.ok) throw new Error('Failed to load trip-info.json');
+      const info = await res.json();
+
+      if (elements.heroSubtitle) elements.heroSubtitle.textContent = info.subtitle;
+      if (elements.heroTitleMain) elements.heroTitleMain.textContent = info.titleMain;
+      if (elements.heroTitleHighlight) elements.heroTitleHighlight.textContent = info.titleHighlight;
+      if (elements.pillDatesText) elements.pillDatesText.textContent = info.dateRangeDisplay;
+      if (elements.pillHotelText) elements.pillHotelText.textContent = info.hotelName;
+
+      state.targetDepartureDate = new Date(info.departureDate);
+    } catch (error) {
+      console.error('Error loading trip info:', error);
+      state.targetDepartureDate = new Date(); // Fallback: countdown shows 00:00:00:00
+    }
   }
 
   function registerServiceWorker() {
