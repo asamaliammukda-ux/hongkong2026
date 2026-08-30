@@ -18,7 +18,7 @@
     activeDayFilter: 'ALL',
     activeBudgetFilter: 'ALL',
     searchQuery: '',
-    targetDepartureDate: new Date('2026-10-03T08:40:00+08:00') // Target departure date: Oct 3, 2026
+    targetDepartureDate: new Date(document.getElementById('hero').dataset.departure)
   };
 
   // DOM Elements Cache
@@ -54,6 +54,15 @@
     startCountdown();
     setupEventListeners();
     fetchAppData();
+    registerServiceWorker();
+  }
+
+  function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch((err) => {
+        console.warn('Service worker registration failed:', err);
+      });
+    }
   }
 
   /* ==========================================================================
@@ -230,12 +239,17 @@
       elements.restaurantsGrid.classList.add('list-view');
     });
 
-    // Real-time Search Input
+    // Real-time Search Input (debounced to avoid re-rendering on every keystroke)
+    let searchDebounceTimer = null;
     elements.searchInput.addEventListener('input', (e) => {
-      state.searchQuery = e.target.value.toLowerCase().trim();
-      renderItinerary();
-      renderRestaurants();
-      renderBudget();
+      clearTimeout(searchDebounceTimer);
+      const value = e.target.value;
+      searchDebounceTimer = setTimeout(() => {
+        state.searchQuery = value.toLowerCase().trim();
+        renderItinerary();
+        renderRestaurants();
+        renderBudget();
+      }, 200);
     });
   }
 
@@ -243,11 +257,9 @@
     state.activeSection = targetId;
 
     elements.navTabs.forEach(tab => {
-      if (tab.getAttribute('data-target') === targetId) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
+      const isActive = tab.getAttribute('data-target') === targetId;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
     elements.sections.forEach(sec => {
@@ -932,8 +944,11 @@
   }
 
   function showErrorState(msg) {
-    if (elements.itineraryContainer) elements.itineraryContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
-    if (elements.budgetContainer) elements.budgetContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
+    const errorHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
+    if (elements.itineraryContainer) elements.itineraryContainer.innerHTML = errorHTML;
+    if (elements.restaurantsGrid) elements.restaurantsGrid.innerHTML = errorHTML;
+    if (elements.budgetContainer) elements.budgetContainer.innerHTML = errorHTML;
+    if (elements.checklistContainer) elements.checklistContainer.innerHTML = errorHTML;
   }
 
 })();

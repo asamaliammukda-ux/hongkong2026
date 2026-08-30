@@ -5,12 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hong Kong & Shenzhen Autumn Odyssey 2026 • Personal Trip Planner</title>
   <meta name="description" content="Personal trip itinerary, gourmet dining guide, and travel checklist for Hong Kong & Shenzhen Autumn Expedition.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧳</text></svg>">
+  <meta property="og:title" content="Hong Kong & Shenzhen Autumn Odyssey 2026">
+  <meta property="og:description" content="Personal trip itinerary, gourmet dining guide, and travel checklist for Hong Kong & Shenzhen Autumn Expedition.">
+  <meta property="og:image" content="images/hero-bg.jpg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#F59E0B">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <!-- Hero Header Section -->
-  <header class="hero-header" id="hero">
+  <header class="hero-header" id="hero" data-departure="2026-10-03T08:40:00+08:00">
     <img src="images/hero-bg.jpg?v=3" alt="Hong Kong Skyline" class="hero-bg" id="heroBg">
     <div class="hero-overlay"></div>
     
@@ -79,26 +86,26 @@
 
     <!-- Sticky Navigation Tabs, Search & Theme Toggle -->
     <nav class="sticky-nav">
-      <div class="nav-tabs">
-        <button class="nav-tab-btn active" data-target="itinerary-section">
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab-btn active" data-target="itinerary-section" role="tab" aria-selected="true">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Itinerary
         </button>
-        <button class="nav-tab-btn" data-target="restaurants-section">
+        <button class="nav-tab-btn" data-target="restaurants-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C9.24 2 7 4.24 7 7c0 2.21 1.45 4.09 3.5 4.74V21a1.5 1.5 0 003 0v-9.26C15.55 11.09 17 9.21 17 7c0-2.76-2.24-5-5-5z" />
           </svg>
           Restaurants
         </button>
-        <button class="nav-tab-btn" data-target="budget-section">
+        <button class="nav-tab-btn" data-target="budget-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
           Budget
         </button>
-        <button class="nav-tab-btn" data-target="checklist-section">
+        <button class="nav-tab-btn" data-target="checklist-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -248,7 +255,7 @@
   </div>
 
   <!-- JavaScript Libraries & Entry Point -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="js/vendor/papaparse.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
