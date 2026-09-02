@@ -15,8 +15,8 @@
     checklist: {},
     activeSection: 'home-section',
     restaurantView: 'grid', // 'grid' | 'list'
-    activeItineraryFilter: 'ALL',
-    activeRestaurantFilter: 'ALL',
+    activeItineraryFilter: 'HIGHLIGHT',
+    activeRestaurantFilter: 'Highlights',
     activeBudgetFilter: 'ALL',
     searchQuery: '',
     targetDepartureDate: null
