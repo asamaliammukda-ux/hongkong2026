@@ -15,11 +15,24 @@
     checklist: {},
     activeSection: 'home-section',
     restaurantView: 'grid', // 'grid' | 'list'
-    activeDayFilter: 'ALL',
+    activeItineraryFilter: 'ALL',
+    activeRestaurantFilter: 'ALL',
     activeBudgetFilter: 'ALL',
     searchQuery: '',
     targetDepartureDate: null
   };
+
+  // Curated itinerary highlights shown via the "Highlights" filter chip (matched by Image path)
+  const HIGHLIGHT_ITINERARY_IMAGES = new Set([
+    'images/restaurants/tsim-sha-tsui-street-food.jpg',
+    'images/itinerary/avenue-of-stars.jpg',
+    'images/itinerary/mocape-shenzhen.jpg',
+    'images/restaurants/long-time-ago-mutton-shashlik.jpg',
+    'images/itinerary/civic-center-lightshow.jpg',
+    'images/itinerary/hong-kong-temples.jpg',
+    'images/itinerary/peak-tram.jpg',
+    'images/itinerary/sky-terrace-428.jpg'
+  ]);
 
   // DOM Elements Cache
   const elements = {
@@ -409,28 +422,28 @@
     elements.filterBar.innerHTML = '';
 
     if (state.activeSection === 'itinerary-section') {
-      // Get unique Days
-      const days = ['ALL', ...new Set(state.itinerary.map(item => (item.Date || item.Day || '').trim()).filter(Boolean))];
+      // "Highlights" first, unique Days in CSV order, "All Days" last
+      const days = ['HIGHLIGHT', ...new Set(state.itinerary.map(item => (item.Date || item.Day || '').trim()).filter(Boolean)), 'ALL'];
       days.forEach(day => {
         const chip = document.createElement('button');
-        chip.className = `filter-chip ${state.activeDayFilter === day ? 'active' : ''}`;
-        chip.textContent = day === 'ALL' ? 'All Days' : day.split('-')[0].trim();
+        chip.className = `filter-chip ${state.activeItineraryFilter === day ? 'active' : ''}`;
+        chip.textContent = day === 'ALL' ? 'All Days' : (day === 'HIGHLIGHT' ? 'Highlights' : day.split('-')[0].trim());
         chip.addEventListener('click', () => {
-          state.activeDayFilter = day;
+          state.activeItineraryFilter = day;
           renderFilterBar();
           renderItinerary();
         });
         elements.filterBar.appendChild(chip);
       });
     } else if (state.activeSection === 'restaurants-section') {
-      // Get unique types
-      const types = ['ALL', ...new Set(state.restaurants.map(item => item.Type.split('•')[0].trim()))];
+      // Unique types in CSV order (Highlights already appears first in the data), "All Dining" last
+      const types = [...new Set(state.restaurants.map(item => item.Type.split('•')[0].trim())), 'ALL'];
       types.forEach(type => {
         const chip = document.createElement('button');
-        chip.className = `filter-chip ${state.activeDayFilter === type ? 'active' : ''}`;
+        chip.className = `filter-chip ${state.activeRestaurantFilter === type ? 'active' : ''}`;
         chip.textContent = type === 'ALL' ? 'All Dining' : type;
         chip.addEventListener('click', () => {
-          state.activeDayFilter = type;
+          state.activeRestaurantFilter = type;
           renderFilterBar();
           renderRestaurants();
         });
@@ -460,9 +473,11 @@
   function renderItinerary() {
     let filtered = state.itinerary;
 
-    // Filter by Day
-    if (state.activeDayFilter !== 'ALL') {
-      filtered = filtered.filter(item => (item.Date || item.Day) === state.activeDayFilter);
+    // Filter by curated Highlights or by Day
+    if (state.activeItineraryFilter === 'HIGHLIGHT') {
+      filtered = filtered.filter(item => HIGHLIGHT_ITINERARY_IMAGES.has((item.Image || '').trim()));
+    } else if (state.activeItineraryFilter !== 'ALL') {
+      filtered = filtered.filter(item => (item.Date || item.Day) === state.activeItineraryFilter);
     }
 
     // Filter by Search Query
@@ -576,8 +591,8 @@
     let filtered = state.restaurants;
 
     // Filter by Type
-    if (state.activeDayFilter !== 'ALL') {
-      filtered = filtered.filter(item => (item.Type || '').toLowerCase().includes(state.activeDayFilter.toLowerCase()));
+    if (state.activeRestaurantFilter !== 'ALL') {
+      filtered = filtered.filter(item => (item.Type || '').toLowerCase().includes(state.activeRestaurantFilter.toLowerCase()));
     }
 
     // Filter by Search Query
