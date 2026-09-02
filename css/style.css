@@ -265,7 +265,7 @@ body {
   color: #FFFFFF;
 }
 
-.hero-title span {
+.hero-title-highlight {
   background: linear-gradient(135deg, #FFF 30%, var(--accent-gold-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -561,6 +561,26 @@ body {
   background: var(--accent-amber-glow);
   color: var(--accent-gold-light);
   border-color: var(--accent-gold);
+}
+
+/* Home Section */
+.home-intro-text {
+  color: var(--text-secondary);
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+.home-subheading {
+  margin: 0 0 1.25rem;
+}
+
+#home-highlights-wrapper,
+#home-dining-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.home-nav-card {
+  cursor: pointer;
 }
 
 /* Section Title Header */

@@ -13,16 +13,21 @@
     restaurants: [],
     budget: [],
     checklist: {},
-    activeSection: 'itinerary-section',
+    activeSection: 'home-section',
     restaurantView: 'grid', // 'grid' | 'list'
     activeDayFilter: 'ALL',
     activeBudgetFilter: 'ALL',
     searchQuery: '',
-    targetDepartureDate: new Date('2026-10-03T08:40:00+08:00') // Target departure date: Oct 3, 2026
+    targetDepartureDate: null
   };
 
   // DOM Elements Cache
   const elements = {
+    heroSubtitle: document.getElementById('heroSubtitle'),
+    heroTitleMain: document.getElementById('heroTitleMain'),
+    heroTitleHighlight: document.getElementById('heroTitleHighlight'),
+    pillDatesText: document.getElementById('pillDatesText'),
+    pillHotelText: document.getElementById('pillHotelText'),
     cdDays: document.getElementById('cd-days'),
     cdHours: document.getElementById('cd-hours'),
     cdMinutes: document.getElementById('cd-minutes'),
@@ -40,7 +45,11 @@
     checklistContainer: document.getElementById('checklist-container'),
     checklistProgressBar: document.getElementById('checklistProgressBar'),
     checklistProgressText: document.getElementById('checklistProgressText'),
-    highlightsBadgeCount: document.getElementById('highlights-badge-count')
+    highlightsBadgeCount: document.getElementById('highlights-badge-count'),
+    homeIntroText: document.getElementById('homeIntroText'),
+    homeStatsWrapper: document.getElementById('home-stats-wrapper'),
+    homeHighlightsWrapper: document.getElementById('home-highlights-wrapper'),
+    homeDiningWrapper: document.getElementById('home-dining-wrapper')
   };
 
   /* ==========================================================================
@@ -49,11 +58,44 @@
 
   document.addEventListener('DOMContentLoaded', initApp);
 
-  function initApp() {
+  async function initApp() {
     initTheme();
-    startCountdown();
     setupEventListeners();
+    await loadTripInfo();
+    startCountdown();
     fetchAppData();
+    registerServiceWorker();
+  }
+
+  /**
+   * Fetch trip-info.json and populate hero header (title, subtitle, dates, hotel, departure date)
+   */
+  async function loadTripInfo() {
+    try {
+      const res = await fetch('data/trip-info.json');
+      if (!res.ok) throw new Error('Failed to load trip-info.json');
+      const info = await res.json();
+
+      if (elements.heroSubtitle) elements.heroSubtitle.textContent = info.subtitle;
+      if (elements.heroTitleMain) elements.heroTitleMain.textContent = info.titleMain;
+      if (elements.heroTitleHighlight) elements.heroTitleHighlight.textContent = info.titleHighlight;
+      if (elements.pillDatesText) elements.pillDatesText.textContent = info.dateRangeDisplay;
+      if (elements.pillHotelText) elements.pillHotelText.textContent = info.hotelName;
+
+      state.homeDescription = info.description || '';
+      state.targetDepartureDate = new Date(info.departureDate);
+    } catch (error) {
+      console.error('Error loading trip info:', error);
+      state.targetDepartureDate = new Date(); // Fallback: countdown shows 00:00:00:00
+    }
+  }
+
+  function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch((err) => {
+        console.warn('Service worker registration failed:', err);
+      });
+    }
   }
 
   /* ==========================================================================
@@ -153,12 +195,101 @@
       renderRestaurants();
       renderBudget();
       renderChecklist();
+      renderHome();
       updateChecklistProgress();
+
+      // Home is the default landing tab — it has no day/type filters
+      elements.filterBar.style.display = 'none';
 
     } catch (error) {
       console.error('Error fetching trip data:', error);
       showErrorState(error.message);
     }
+  }
+
+  /**
+   * Sums a numeric budget column (e.g. 'Price (THB)') across a set of budget rows
+   */
+  function sumBudgetColumn(rows, column) {
+    return rows.reduce((acc, row) => {
+      const val = parseFloat(String(row[column] || '').replace(/[^0-9.-]+/g, '')) || 0;
+      return acc + val;
+    }, 0);
+  }
+
+  /**
+   * Render the Home overview tab: trip description, quick stats, and highlight
+   * cards pulled from the itinerary and restaurants data already in state.
+   */
+  function renderHome() {
+    if (elements.homeIntroText) {
+      elements.homeIntroText.textContent = state.homeDescription || '';
+    }
+
+    const dayCount = new Set(state.itinerary.map(item => (item.Date || '').trim()).filter(Boolean)).size;
+    const totalTHB = sumBudgetColumn(state.budget, 'Price (THB)');
+
+    if (elements.homeStatsWrapper) {
+      elements.homeStatsWrapper.innerHTML = `
+        <div class="budget-summary-card card-thb">
+          <div class="summary-top"><span class="summary-label">Trip Days</span></div>
+          <div class="summary-amount">${dayCount}</div>
+        </div>
+        <div class="budget-summary-card card-cny">
+          <div class="summary-top"><span class="summary-label">Activities</span></div>
+          <div class="summary-amount">${state.itinerary.length}</div>
+        </div>
+        <div class="budget-summary-card card-thb">
+          <div class="summary-top"><span class="summary-label">Dining Spots</span></div>
+          <div class="summary-amount">${state.restaurants.length}</div>
+        </div>
+        <div class="budget-summary-card card-cny">
+          <div class="summary-top"><span class="summary-label">Est. Budget</span></div>
+          <div class="summary-amount">฿${totalTHB.toLocaleString('th-TH', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+        </div>
+      `;
+    }
+
+    if (elements.homeHighlightsWrapper) {
+      const highlightStops = state.itinerary.filter(item => item.Image && item.Image.trim() !== '');
+      elements.homeHighlightsWrapper.innerHTML = highlightStops.map(item => `
+        <div class="restaurant-card has-image home-nav-card" data-nav="itinerary-section">
+          <div class="restaurant-img-wrapper">
+            <img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.Topic || item.Detail || '')}" class="restaurant-img" loading="lazy">
+            <span class="type-badge">${escapeHTML((item.Date || '').trim())}</span>
+          </div>
+          <div class="restaurant-info">
+            <div class="restaurant-content-top">
+              <h3 class="restaurant-name">${escapeHTML(item.Topic || item.Detail || '')}</h3>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    if (elements.homeDiningWrapper) {
+      const highlightDining = state.restaurants.filter(item => (item.Type || '').toLowerCase().includes('highlight'));
+      elements.homeDiningWrapper.innerHTML = highlightDining.map(item => `
+        <div class="restaurant-card has-image home-nav-card" data-nav="restaurants-section">
+          <div class="restaurant-img-wrapper">
+            <img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.List)}" class="restaurant-img" loading="lazy">
+            ${item.Price ? `<span class="price-badge">${escapeHTML(item.Price)}</span>` : ''}
+          </div>
+          <div class="restaurant-info">
+            <div class="restaurant-content-top">
+              <h3 class="restaurant-name">${escapeHTML(item.List)}</h3>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Clicking a Home highlight card jumps straight to its tab
+    document.querySelectorAll('#home-highlights-wrapper .home-nav-card, #home-dining-wrapper .home-nav-card').forEach(card => {
+      card.addEventListener('click', () => {
+        switchSection(card.getAttribute('data-nav'));
+      });
+    });
   }
 
   /* ==========================================================================
@@ -230,12 +361,17 @@
       elements.restaurantsGrid.classList.add('list-view');
     });
 
-    // Real-time Search Input
+    // Real-time Search Input (debounced to avoid re-rendering on every keystroke)
+    let searchDebounceTimer = null;
     elements.searchInput.addEventListener('input', (e) => {
-      state.searchQuery = e.target.value.toLowerCase().trim();
-      renderItinerary();
-      renderRestaurants();
-      renderBudget();
+      clearTimeout(searchDebounceTimer);
+      const value = e.target.value;
+      searchDebounceTimer = setTimeout(() => {
+        state.searchQuery = value.toLowerCase().trim();
+        renderItinerary();
+        renderRestaurants();
+        renderBudget();
+      }, 200);
     });
   }
 
@@ -243,11 +379,9 @@
     state.activeSection = targetId;
 
     elements.navTabs.forEach(tab => {
-      if (tab.getAttribute('data-target') === targetId) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
+      const isActive = tab.getAttribute('data-target') === targetId;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
     elements.sections.forEach(sec => {
@@ -259,7 +393,7 @@
     });
 
     // Toggle filter bar visibility based on section
-    if (targetId === 'checklist-section') {
+    if (targetId === 'checklist-section' || targetId === 'home-section') {
       elements.filterBar.style.display = 'none';
     } else {
       elements.filterBar.style.display = 'flex';
@@ -932,8 +1066,11 @@
   }
 
   function showErrorState(msg) {
-    if (elements.itineraryContainer) elements.itineraryContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
-    if (elements.budgetContainer) elements.budgetContainer.innerHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
+    const errorHTML = `<div style="text-align: center; padding: 2rem; color: var(--badge-danger-text);">Error loading data: ${escapeHTML(msg)}</div>`;
+    if (elements.itineraryContainer) elements.itineraryContainer.innerHTML = errorHTML;
+    if (elements.restaurantsGrid) elements.restaurantsGrid.innerHTML = errorHTML;
+    if (elements.budgetContainer) elements.budgetContainer.innerHTML = errorHTML;
+    if (elements.checklistContainer) elements.checklistContainer.innerHTML = errorHTML;
   }
 
 })();

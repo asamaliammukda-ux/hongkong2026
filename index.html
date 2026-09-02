@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hong Kong & Shenzhen Autumn Odyssey 2026 • Personal Trip Planner</title>
   <meta name="description" content="Personal trip itinerary, gourmet dining guide, and travel checklist for Hong Kong & Shenzhen Autumn Expedition.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧳</text></svg>">
+  <meta property="og:title" content="Hong Kong & Shenzhen Autumn Odyssey 2026">
+  <meta property="og:description" content="Personal trip itinerary, gourmet dining guide, and travel checklist for Hong Kong & Shenzhen Autumn Expedition.">
+  <meta property="og:image" content="images/hero-bg.jpg">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#F59E0B">
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -13,10 +20,10 @@
   <header class="hero-header" id="hero">
     <img src="images/hero-bg.jpg?v=3" alt="Hong Kong Skyline" class="hero-bg" id="heroBg">
     <div class="hero-overlay"></div>
-    
+
     <div class="hero-content">
-      <span class="hero-subtitle">Private Itinerary • 4 Days Hong Kong & Shenzhen Expedition</span>
-      <h1 class="hero-title">Hong Kong & Shenzhen <span>Autumn Odyssey</span></h1>
+      <span class="hero-subtitle" id="heroSubtitle">Private Itinerary • 4 Days Hong Kong & Shenzhen Expedition</span>
+      <h1 class="hero-title"><span id="heroTitleMain">Hong Kong & Shenzhen</span> <span id="heroTitleHighlight" class="hero-title-highlight">Autumn Odyssey</span></h1>
       
       <!-- Countdown Timer Container -->
       <div class="countdown-container">
@@ -51,7 +58,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <span>Oct 3, 2026 - Oct 6, 2026</span>
+          <span id="pillDatesText">Oct 3, 2026 - Oct 6, 2026</span>
         </div>
 
         <!-- 2. Hotel Name Badge -->
@@ -59,7 +66,7 @@
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h2m0 0h2m-2 4h-2m-4 0H9m-4 0H3m14-8a2 2 0 11-4 0 2 2 0 014 0zM9 9a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          <span>Tsim Sha Tsui, Hong Kong (Kowloon)</span>
+          <span id="pillHotelText">Tsim Sha Tsui, Hong Kong (Kowloon)</span>
         </div>
 
         <!-- 3. Trip Highlights Badge -->
@@ -79,26 +86,32 @@
 
     <!-- Sticky Navigation Tabs, Search & Theme Toggle -->
     <nav class="sticky-nav">
-      <div class="nav-tabs">
-        <button class="nav-tab-btn active" data-target="itinerary-section">
+      <div class="nav-tabs" role="tablist">
+        <button class="nav-tab-btn active" data-target="home-section" role="tab" aria-selected="true">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9-2v10a1 1 0 001 1h3m-4-1v-6a1 1 0 011-1h2a1 1 0 011 1v6m-4 1h4" />
+          </svg>
+          Home
+        </button>
+        <button class="nav-tab-btn" data-target="itinerary-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           Itinerary
         </button>
-        <button class="nav-tab-btn" data-target="restaurants-section">
+        <button class="nav-tab-btn" data-target="restaurants-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2C9.24 2 7 4.24 7 7c0 2.21 1.45 4.09 3.5 4.74V21a1.5 1.5 0 003 0v-9.26C15.55 11.09 17 9.21 17 7c0-2.76-2.24-5-5-5z" />
           </svg>
           Restaurants
         </button>
-        <button class="nav-tab-btn" data-target="budget-section">
+        <button class="nav-tab-btn" data-target="budget-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
           </svg>
           Budget
         </button>
-        <button class="nav-tab-btn" data-target="checklist-section">
+        <button class="nav-tab-btn" data-target="checklist-section" role="tab" aria-selected="false">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -134,8 +147,41 @@
       <!-- Dynamically populated filter chips -->
     </div>
 
+    <!-- 0. HOME SECTION -->
+    <section id="home-section" class="content-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">
+            <svg class="section-title-icon" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-9-2v10a1 1 0 001 1h3m-4-1v-6a1 1 0 011-1h2a1 1 0 011 1v6m-4 1h4"/>
+            </svg>
+            Trip Overview
+          </h2>
+          <p class="section-subtext">A quick look at your Hong Kong & Shenzhen Autumn Odyssey before diving into the details</p>
+        </div>
+      </div>
+
+      <div class="checklist-progress-card">
+        <p class="home-intro-text" id="homeIntroText"><!-- Rendered dynamically from trip-info.json --></p>
+      </div>
+
+      <div class="budget-summary-grid" id="home-stats-wrapper">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <h3 class="category-title home-subheading">✨ Trip Highlights</h3>
+      <div class="restaurants-grid" id="home-highlights-wrapper">
+        <!-- Rendered dynamically from itinerary.csv -->
+      </div>
+
+      <h3 class="category-title home-subheading">🍽️ Must-Try Dining</h3>
+      <div class="restaurants-grid" id="home-dining-wrapper">
+        <!-- Rendered dynamically from restaurants.csv -->
+      </div>
+    </section>
+
     <!-- 1. ITINERARY SECTION -->
-    <section id="itinerary-section" class="content-section">
+    <section id="itinerary-section" class="content-section" style="display: none;">
       <div class="section-header">
         <div>
           <h2 class="section-title">
@@ -163,7 +209,7 @@
             </svg>
             Gourmet Restaurants & Dining
           </h2>
-          <p class="section-subtext">Hand-picked Beijing cuisine, authentic Peking Roast Duck, and local street eats</p>
+          <p class="section-subtext">Hand-picked Hong Kong & Shenzhen dining, from cha chaan teng classics to street food favorites</p>
         </div>
 
         <div class="restaurants-controls">
@@ -248,7 +294,7 @@
   </div>
 
   <!-- JavaScript Libraries & Entry Point -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="js/vendor/papaparse.min.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
