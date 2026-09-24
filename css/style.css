@@ -840,6 +840,27 @@ body {
   border-color: rgba(217, 119, 6, 0.3);
 }
 
+.timeline-restaurant-options {
+  display: grid;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.timeline-restaurant-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border-glass);
+  border-radius: 0.75rem;
+  background: var(--pill-bg);
+}
+
+.timeline-restaurant-option .amap-pill-btn {
+  flex-shrink: 0;
+}
+
 /* Activity Topic Title (Bold Headline) */
 .timeline-topic-title,
 .timeline-detail-text {

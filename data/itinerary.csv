@@ -12,13 +12,15 @@ Date,Time,Time_spent,Topic,Detail,Map,Image
 4 Oct 26,08.30 AM - 09.30 AM,1h,เช็กอินเรือและผ่าน ตม. ฮ่องกง,"เผื่อเวลา 1 ชั่วโมงก่อนเรือออกสำหรับตรวจเอกสารและคิวในช่วงวันหยุด",,,
 4 Oct 26,09.30 AM - 10.30 AM,1h,นั่งเรือ TurboJET ไปท่าเรือ Macau Outer Harbour,"เที่ยวเรือ 09.30 น. ตามตารางที่ประกาศไว้ ควรตรวจตารางและจองล่วงหน้า",https://www.google.com/maps/search/?api=1&query=Macau+Outer+Harbour+Ferry+Terminal,
 4 Oct 26,10.30 AM - 11.15 AM,45m,ลงเรือและผ่าน ตม. มาเก๊า,"เผื่อเวลารับคนเข้าเมืองและเดินทางออกจากท่าเรือ",,,
-4 Oct 26,11.15 AM - 01.15 PM,2h,กินบรันช์และเดินเที่ยวย่าน Senado Square ถึงซากโบสถ์ St. Paul’s,"หาอาหารท้องถิ่นหรือทาร์ตไข่ย่านจัตุรัส Senado แล้วเดินชมย่านเมืองเก่าและซากโบสถ์ St. Paul’s ในกิจกรรมเดียว",https://www.google.com/maps/search/?api=1&query=Senado+Square+Macau,images/itinerary/st-pauls-macau.jpg
-4 Oct 26,01.15 PM - 02.00 PM,45m,เดินทางไป The Venetian Macao ที่ Cotai,"เผื่อเวลาเดินทางข้ามไปฝั่ง Cotai และหาทางเข้าคาสิโน",https://www.google.com/maps/search/?api=1&query=The+Venetian+Macao,
-4 Oct 26,02.00 PM - 06.00 PM,4h,เข้าคาสิโน The Venetian Macao,"ช่วงคาสิโนตามแผน 14.00–18.00 น. ผู้เข้าต้องมีอายุอย่างน้อย 21 ปีและพกเอกสารประจำตัว",https://www.google.com/maps/search/?api=1&query=The+Venetian+Macao,images/itinerary/the-venetian-macao.jpg
+4 Oct 26,11.15 AM - 12.35 PM,1h 20m,เดินทางไปย่าน ZAPE / NAPE และกินอาหารมื้อแรก,"เลือกร้านอาหารมื้อแรกจาก FENG WEI JU 風味居, 新濠仔海鮮美食 หรือ Zhen Dim Sum (Tai Fung) แล้วเดินทางต่อไป Senado Square",,
+4 Oct 26,12.35 PM - 12.55 PM,20m,เดินทางไปย่าน Senado Square,,https://www.google.com/maps/search/?api=1&query=Senado+Square+Macau,
+4 Oct 26,12.55 PM - 01.40 PM,45m,เดินเที่ยวย่าน Senado Square ถึงซากโบสถ์ St. Paul’s,"เดินชมจัตุรัส Senado และย่านเมืองเก่าต่อไปจนถึงซากโบสถ์ St. Paul’s",https://www.google.com/maps/search/?api=1&query=Senado+Square+Macau,images/itinerary/st-pauls-macau.jpg
+4 Oct 26,01.40 PM - 02.00 PM,20m,เดินทางไป Casino Lisboa Macau,"เดินทางจากซากโบสถ์ St. Paul’s ไปคาสิโนฝั่งคาบสมุทรมาเก๊า",https://maps.app.goo.gl/kRZkYnNDVTEQFSjA6,
+4 Oct 26,02.00 PM - 06.00 PM,4h,เข้าคาสิโน Casino Lisboa Macau,"ช่วงคาสิโนตามแผน 14.00–18.00 น. ผู้เข้าต้องมีอายุอย่างน้อย 21 ปีและพกเอกสารประจำตัว",https://maps.app.goo.gl/kRZkYnNDVTEQFSjA6,images/itinerary/lisboa-casino-macau.jpg
 4 Oct 26,06.00 PM - 07.15 PM,1h 15m,รับประทานอาหารเย็น,,,,
-4 Oct 26,07.15 PM - 07.45 PM,30m,เดินทางไปท่าเรือ Macau Taipa Ferry Terminal,,https://www.google.com/maps/search/?api=1&query=Macau+Taipa+Ferry+Terminal,
+4 Oct 26,07.15 PM - 07.45 PM,30m,เดินทางไปท่าเรือ Macau Outer Harbour Ferry Terminal,,https://www.google.com/maps/search/?api=1&query=Macau+Outer+Harbour+Ferry+Terminal,
 4 Oct 26,07.45 PM - 09.00 PM,1h 15m,เช็กอินเรือและผ่าน ตม. มาเก๊า,"เผื่อเวลา 75 นาทีก่อนเรือกลับสำหรับคิวในช่วงวันหยุด",,,
-4 Oct 26,09.00 PM - 10.00 PM,1h,นั่งเรือ Cotai Water Jet กลับ Sheung Wan,"เที่ยวเรือ 21.00 น. ตามตารางที่ประกาศไว้ ควรตรวจตารางและจองล่วงหน้า",https://www.google.com/maps/search/?api=1&query=Hong+Kong+Macau+Ferry+Terminal,
+4 Oct 26,09.00 PM - 10.00 PM,1h,นั่งเรือ TurboJET จาก Macau Outer Harbour กลับ Sheung Wan,"เที่ยวเรือ 21.00 น. ตามตารางที่ประกาศไว้ ควรตรวจตารางและจองล่วงหน้า",https://www.google.com/maps/search/?api=1&query=Hong+Kong+Macau+Ferry+Terminal,
 4 Oct 26,10.00 PM - 10.45 PM,45m,ผ่าน ตม. ฮ่องกง,"เผื่อเวลาขึ้นฝั่งและตรวจหนังสือเดินทาง",,,
 4 Oct 26,10.45 PM - 11.15 PM,30m,เดินทางกลับโรงแรมย่านจิมซาจุ่ย,,,,
 5 Oct 26,-,-,ไหว้พระเสริมสิริมงคลและท่องเที่ยวสายมูตลอดทั้งวัน (Hong Kong Blessing & Spiritual Day Tour),"วันสำหรับสักการะสิ่งศักดิ์สิทธิ์และขอพรตามวัดชื่อดังของฮ่องกง เพื่อเสริมโชคลาภ ความสำเร็จ และความเป็นสิริมงคล",,images/itinerary/hong-kong-temples.jpg

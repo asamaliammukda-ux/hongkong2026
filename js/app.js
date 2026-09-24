@@ -28,12 +28,12 @@
     'images/itinerary/avenue-of-stars.jpg',
     'images/itinerary/hong-kong-temples.jpg',
     'images/itinerary/st-pauls-macau.jpg',
-    'images/itinerary/the-venetian-macao.jpg',
+    'images/itinerary/lisboa-casino-macau.jpg',
     'images/restaurants/yat-tung-heen.jpg'
   ]);
   const HIGHLIGHT_ITINERARY_TOPICS = new Set([
-    'กินบรันช์และเดินเที่ยวย่าน Senado Square ถึงซากโบสถ์ St. Paul’s',
-    'เข้าคาสิโน The Venetian Macao'
+    'เดินเที่ยวย่าน Senado Square ถึงซากโบสถ์ St. Paul’s',
+    'เข้าคาสิโน Casino Lisboa Macau'
   ]);
 
   function isItineraryHighlight(item) {
@@ -537,6 +537,19 @@
           : '';
 
         const hasDetail = Boolean(detailText !== '');
+        const zapeRestaurants = topicText.includes('ZAPE / NAPE')
+          ? state.restaurants.filter(restaurant => restaurant.Address === 'ZAPE / NAPE Macau')
+          : [];
+        const restaurantOptionsHTML = zapeRestaurants.length ? `
+          <div class="timeline-restaurant-options">
+            ${zapeRestaurants.map(restaurant => `
+              <div class="timeline-restaurant-option">
+                <span>${escapeHTML(restaurant.List)}</span>
+                <a href="${escapeHTML(restaurant.Map)}" target="_blank" rel="noopener noreferrer" class="amap-pill-btn" aria-label="เปิดแผนที่ ${escapeHTML(restaurant.List)}">Map</a>
+              </div>
+            `).join('')}
+          </div>
+        ` : '';
 
         const imageHTML = hasImage ? `
           <div class="timeline-thumb-wrapper">
@@ -572,6 +585,7 @@
               </div>
               <h3 class="timeline-topic-title">${escapeHTML(topicText)}</h3>
               ${hasDetail ? `<p class="timeline-detail-desc">${escapeHTML(detailText)}</p>` : ''}
+              ${restaurantOptionsHTML}
             </div>
           </div>
         `;

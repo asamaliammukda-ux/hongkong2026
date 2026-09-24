@@ -118,9 +118,9 @@
           "items": [
             {
               "id": "chk_macau_ferries",
-              "task": "จองเรือ 4 ต.ค. ฮ่องกง Sheung Wan → Macau Outer Harbour 09:30 และ Macau Taipa → Sheung Wan 21:00",
+              "task": "จองเรือ 4 ต.ค. ฮ่องกง Sheung Wan → Macau Outer Harbour 09:30 และ Macau Outer Harbour → Sheung Wan 21:00",
               "time_note": "ตรวจตารางเรือก่อนจองและไปถึงท่าเรือล่วงหน้า",
-              "channel_note": "TurboJET / Cotai Water Jet",
+              "channel_note": "TurboJET ไป-กลับ",
               "badge_text": "High Priority",
               "badge_type": "warning"
             }
