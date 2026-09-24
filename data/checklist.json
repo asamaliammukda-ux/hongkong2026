@@ -5,7 +5,7 @@
       "category_name": "เอกสาร & การเตรียมตัวเดินทาง (Travel Prep & Documents)",
       "groups": [
         {
-          "group_name": "เอกสารสำคัญ & ข้อกำหนดเข้าเมืองฮ่องกงและจีน",
+          "group_name": "เอกสารสำคัญ & ข้อกำหนดเข้าเมืองฮ่องกงและมาเก๊า",
           "items": [
             {
               "id": "chk_passport",
@@ -17,7 +17,7 @@
             },
             {
               "id": "chk_visa_free",
-              "task": "ตรวจสอบสิทธิ์ฟรีวีซ่าไทย-ฮ่องกง 30 วัน & ฟรีวีซ่าไทย-จีนถาวร",
+              "task": "ตรวจสอบสิทธิ์เข้าฮ่องกงและมาเก๊าสำหรับหนังสือเดินทางไทย",
               "time_note": "ก่อนบิน 7 วัน",
               "channel_note": "ข้อตกลงยกเว้นวีซ่า",
               "badge_text": "Required",
@@ -42,35 +42,35 @@
           ]
         },
         {
-          "group_name": "การเงิน & แอปพลิเคชันที่ต้องมี (Hong Kong & Shenzhen)",
+          "group_name": "การเงิน & แอปพลิเคชันที่ต้องมี (Hong Kong & Macao)",
           "items": [
             {
               "id": "chk_alipay_wechat",
-              "task": "ผูกบัตรเครดิต / Travel Card (YouTrip, Boarding Card) กับ Alipay & WeChat Pay สำหรับเซินเจิ้น",
+              "task": "เตรียมบัตรเครดิตหรือ Travel Card และเงินสด HKD/MOP สำหรับฮ่องกงและมาเก๊า",
               "time_note": "ยืนยันตัวตนก่อนเดินทาง 7 วัน",
-              "channel_note": "Alipay & WeChat Pay App",
+              "channel_note": "บัตรที่ใช้ต่างประเทศได้ / จุดแลกเงิน",
               "badge_text": "Critical",
               "badge_type": "danger"
             },
             {
               "id": "chk_esim_roaming",
-              "task": "สั่งซื้อและติดตั้ง eSIM Hong Kong & China Unlimited Data (เปิด Roaming เล่น LINE/FB/IG ได้)",
+              "task": "สั่งซื้อและติดตั้ง eSIM ที่ครอบคลุมฮ่องกงและมาเก๊า",
               "time_note": "เปิดใช้งานเมื่อถึงสนามบินนานาชาติฮ่องกง (HKG)",
-              "channel_note": "eSIM Hong Kong & China Unlimited",
+              "channel_note": "ตรวจประเทศที่รองรับก่อนซื้อ",
               "badge_text": "High Priority",
               "badge_type": "warning"
             },
             {
               "id": "chk_map_didi",
-              "task": "ติดตั้งและตั้งค่าแอปแผนที่ (Map) & DiDi สำหรับนำทางและเรียกแท็กซี่/รถรับจ้าง",
+              "task": "เตรียมแอปแผนที่สำหรับเดินทางในฮ่องกงและมาเก๊า",
               "time_note": "ก่อนเดินทาง 3 วัน",
-              "channel_note": "Map / DiDi Mini Program",
+              "channel_note": "แผนที่และเส้นทางขนส่งสาธารณะ",
               "badge_text": "Recommended",
               "badge_type": "info"
             },
             {
               "id": "chk_cash_hkd_cny",
-              "task": "แลกเงินสดสำรอง HKD (ดอลลาร์ฮ่องกง) และ CNY (หยวนจีน)",
+              "task": "แลกเงินสดสำรอง HKD (ดอลลาร์ฮ่องกง) และ MOP (ปาตากามาเก๊า)",
               "time_note": "ก่อนเดินทาง 5 วัน",
               "channel_note": "SuperRich / ธนาคารพาณิชย์",
               "badge_text": "Recommended",
@@ -117,28 +117,12 @@
           "group_name": "ตั๋วเข้าชมสถานที่ & การเดินทางข้ามแดน",
           "items": [
             {
-              "id": "chk_high_speed_rail",
-              "task": "ตั๋วรถไฟความเร็วสูง HK West Kowloon ⇄ Futian Station (Shenzhen)",
-              "time_note": "เดินทาง 4 ต.ค. 2026 @ 10:00 AM / กลับ 09:20 PM",
-              "channel_note": "12306 China Railway / Trip.com",
+              "id": "chk_macau_ferries",
+              "task": "จองเรือ 4 ต.ค. ฮ่องกง Sheung Wan → Macau Outer Harbour 09:30 และ Macau Taipa → Sheung Wan 21:00",
+              "time_note": "ตรวจตารางเรือก่อนจองและไปถึงท่าเรือล่วงหน้า",
+              "channel_note": "TurboJET / Cotai Water Jet",
               "badge_text": "High Priority",
               "badge_type": "warning"
-            },
-            {
-              "id": "chk_peak_tram_ticket",
-              "task": "บัตรโดยสารรถราง The Peak Tram & จุดชมวิว Sky Terrace 428",
-              "time_note": "เข้าชม 6 ต.ค. 2026 @ 11:10 AM",
-              "channel_note": "Klook / The Peak Official",
-              "badge_text": "Booked",
-              "badge_type": "success"
-            },
-            {
-              "id": "chk_star_ferry",
-              "task": "บัตร Star Ferry หรือเตรียมเหรียญ/บัตร Octopus สำหรับล่องเรือข้ามอ่าววิคตอเรีย",
-              "time_note": "เดินทาง 6 ต.ค. 2026 @ 10:10 AM",
-              "channel_note": "Star Ferry Pier",
-              "badge_text": "Ready",
-              "badge_type": "success"
             }
           ]
         }
@@ -153,7 +137,7 @@
           "items": [
             {
               "id": "chk_walking_shoes",
-              "task": "รองเท้าผ้าใบเดินสบายซัพพอร์ตเท้า (เนื่องจากเดินเยอะในฮ่องกง & เซินเจิ้น)",
+              "task": "รองเท้าผ้าใบเดินสบายซัพพอร์ตเท้า (เนื่องจากเดินเยอะในฮ่องกง & มาเก๊า)",
               "time_note": "เตรียมพร้อมก่อนแพ็กกระเป๋า",
               "channel_note": "จำเป็นมากสำหรับการเดินทางในเมือง",
               "badge_text": "High Priority",
@@ -161,7 +145,7 @@
             },
             {
               "id": "chk_adapter",
-              "task": "หัวแปลงปลั๊กไฟ Universal Adapter (ฮ่องกงใช้ปลั๊กขาเหลี่ยม Type G / จีน Type A, I)",
+              "task": "หัวแปลงปลั๊กไฟ Universal Adapter (ฮ่องกงใช้ปลั๊กขาเหลี่ยม Type G / มาเก๊า Type G)",
               "time_note": "พกติดตัวในกระเป๋าเดินทาง",
               "channel_note": "Universal Travel Adapter",
               "badge_text": "Critical",

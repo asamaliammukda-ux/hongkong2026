@@ -22,17 +22,24 @@
     targetDepartureDate: null
   };
 
-  // Curated itinerary highlights shown via the "Highlights" filter chip (matched by Image path)
+  // Curated itinerary highlights shown via the "Highlights" filter chip.
   const HIGHLIGHT_ITINERARY_IMAGES = new Set([
     'images/restaurants/tsim-sha-tsui-street-food.jpg',
     'images/itinerary/avenue-of-stars.jpg',
-    'images/itinerary/mocape-shenzhen.jpg',
-    'images/restaurants/long-time-ago-mutton-shashlik.jpg',
-    'images/itinerary/civic-center-lightshow.jpg',
     'images/itinerary/hong-kong-temples.jpg',
-    'images/itinerary/peak-tram.jpg',
-    'images/itinerary/sky-terrace-428.jpg'
+    'images/itinerary/st-pauls-macau.jpg',
+    'images/itinerary/the-venetian-macao.jpg',
+    'images/restaurants/yat-tung-heen.jpg'
   ]);
+  const HIGHLIGHT_ITINERARY_TOPICS = new Set([
+    'กินบรันช์และเดินเที่ยวย่าน Senado Square ถึงซากโบสถ์ St. Paul’s',
+    'เข้าคาสิโน The Venetian Macao'
+  ]);
+
+  function isItineraryHighlight(item) {
+    return HIGHLIGHT_ITINERARY_IMAGES.has((item.Image || '').trim()) ||
+      HIGHLIGHT_ITINERARY_TOPICS.has((item.Topic || '').trim());
+  }
 
   // DOM Elements Cache
   const elements = {
@@ -85,7 +92,7 @@
    */
   async function loadTripInfo() {
     try {
-      const res = await fetch('data/trip-info.json');
+      const res = await fetch('data/trip-info.json', { cache: 'no-store' });
       if (!res.ok) throw new Error('Failed to load trip-info.json');
       const info = await res.json();
 
@@ -154,7 +161,7 @@
    * @returns {Promise<Array<Object>>} Parsed CSV rows as JavaScript objects
    */
   async function fetchAndParseCSV(url) {
-    const response = await fetch(url);
+    const response = await fetch(url, { cache: 'no-store' });
     if (!response.ok) {
       throw new Error(`Failed to fetch CSV file from ${url}: ${response.statusText}`);
     }
@@ -185,7 +192,7 @@
         fetchAndParseCSV('data/itinerary.csv'),
         fetchAndParseCSV('data/restaurants.csv'),
         fetchAndParseCSV('data/budget.csv'),
-        fetch('data/checklist.json')
+        fetch('data/checklist.json', { cache: 'no-store' })
       ]);
 
       if (!checklistRes.ok) {
@@ -264,16 +271,14 @@
     }
 
     if (elements.homeHighlightsWrapper) {
-      const highlightStops = state.itinerary.filter(item => item.Image && item.Image.trim() !== '');
+      const highlightStops = state.itinerary.filter(isItineraryHighlight);
       elements.homeHighlightsWrapper.innerHTML = highlightStops.map(item => `
-        <div class="restaurant-card has-image home-nav-card" data-nav="itinerary-section">
-          <div class="restaurant-img-wrapper">
-            <img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.Topic || item.Detail || '')}" class="restaurant-img" loading="lazy">
-            <span class="type-badge">${escapeHTML((item.Date || '').trim())}</span>
-          </div>
+        <div class="restaurant-card ${item.Image ? 'has-image' : 'no-image'} home-nav-card" data-nav="itinerary-section">
+          ${item.Image ? `<div class="restaurant-img-wrapper"><img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.Topic || item.Detail || '')}" class="restaurant-img" loading="lazy"><span class="type-badge">${escapeHTML((item.Date || '').trim())}</span></div>` : ''}
           <div class="restaurant-info">
             <div class="restaurant-content-top">
               <h3 class="restaurant-name">${escapeHTML(item.Topic || item.Detail || '')}</h3>
+              ${!item.Image ? `<span class="type-badge">${escapeHTML((item.Date || '').trim())}</span>` : ''}
             </div>
           </div>
         </div>
@@ -283,14 +288,12 @@
     if (elements.homeDiningWrapper) {
       const highlightDining = state.restaurants.filter(item => (item.Type || '').toLowerCase().includes('highlight'));
       elements.homeDiningWrapper.innerHTML = highlightDining.map(item => `
-        <div class="restaurant-card has-image home-nav-card" data-nav="restaurants-section">
-          <div class="restaurant-img-wrapper">
-            <img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.List)}" class="restaurant-img" loading="lazy">
-            ${item.Price ? `<span class="price-badge">${escapeHTML(item.Price)}</span>` : ''}
-          </div>
+        <div class="restaurant-card ${item.Image ? 'has-image' : 'no-image'} home-nav-card" data-nav="restaurants-section">
+          ${item.Image ? `<div class="restaurant-img-wrapper"><img src="${escapeHTML(item.Image.trim())}" alt="${escapeHTML(item.List)}" class="restaurant-img" loading="lazy">${item.Price ? `<span class="price-badge">${escapeHTML(item.Price)}</span>` : ''}</div>` : ''}
           <div class="restaurant-info">
             <div class="restaurant-content-top">
               <h3 class="restaurant-name">${escapeHTML(item.List)}</h3>
+              ${!item.Image && item.Price ? `<span class="price-badge">${escapeHTML(item.Price)}</span>` : ''}
             </div>
           </div>
         </div>
@@ -475,7 +478,7 @@
 
     // Filter by curated Highlights or by Day
     if (state.activeItineraryFilter === 'HIGHLIGHT') {
-      filtered = filtered.filter(item => HIGHLIGHT_ITINERARY_IMAGES.has((item.Image || '').trim()));
+      filtered = filtered.filter(isItineraryHighlight);
     } else if (state.activeItineraryFilter !== 'ALL') {
       filtered = filtered.filter(item => (item.Date || item.Day) === state.activeItineraryFilter);
     }
@@ -745,8 +748,8 @@
       return acc + val;
     }, 0);
 
-    const totalCNY = filtered.reduce((acc, row) => {
-      const val = parseFloat(String(row['Price (CNY)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
+    const totalHKD = filtered.reduce((acc, row) => {
+      const val = parseFloat(String(row['Price (HKD)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
       return acc + val;
     }, 0);
 
@@ -761,12 +764,12 @@
           </div>
           <div>
             <h4 class="rate-title">Exchange Rate Reference</h4>
-            <p class="rate-subtitle">Benchmark Currency Ratio: <strong>1 CNY ≈ 4.91 THB</strong> &nbsp;|&nbsp; <strong>1 THB ≈ 0.204 CNY</strong></p>
+            <p class="rate-subtitle">Benchmark Currency Ratio: <strong>1 HKD ≈ 4.27 THB</strong> &nbsp;|&nbsp; <strong>1 THB ≈ 0.234 HKD</strong></p>
           </div>
         </div>
         <div class="rate-pills-wrap">
-          <span class="rate-pill-flag">🇨🇳 1 CNY = ฿4.91 THB</span>
-          <span class="rate-pill-flag">🇹🇭 100 THB = ¥20.37 CNY</span>
+          <span class="rate-pill-flag">🇭🇰 1 HKD ≈ ฿4.27 THB</span>
+          <span class="rate-pill-flag">🇹🇭 100 THB ≈ HK$23.42</span>
         </div>
       </div>
 
@@ -783,11 +786,11 @@
 
         <div class="budget-summary-card card-cny">
           <div class="summary-top">
-            <span class="summary-label">Total Estimated (CNY)</span>
-            <span class="currency-badge cny">CNY (¥)</span>
+            <span class="summary-label">Total Estimated (HKD)</span>
+            <span class="currency-badge cny">HKD (HK$)</span>
           </div>
-          <div class="summary-amount">¥${totalCNY.toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
-          <div class="summary-note">Chinese Yuan (RMB) equivalent</div>
+          <div class="summary-amount">HK$${totalHKD.toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+          <div class="summary-note">Hong Kong dollar equivalent</div>
         </div>
 
         <div class="budget-summary-card card-count">
@@ -820,7 +823,7 @@
               <th style="width: 28%;">Item & Description</th>
               <th style="width: 16%;">Type</th>
               <th style="width: 16%; text-align: right;">Price (THB)</th>
-              <th style="width: 16%; text-align: right;">Price (CNY)</th>
+              <th style="width: 16%; text-align: right;">Price (HKD)</th>
               <th style="width: 24%;">Note / Booking Info</th>
             </tr>
           </thead>
@@ -829,7 +832,7 @@
 
     filtered.forEach(item => {
       const priceTHB = parseFloat(String(item['Price (THB)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
-      const priceCNY = parseFloat(String(item['Price (CNY)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
+      const priceHKD = parseFloat(String(item['Price (HKD)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
       const badgeClass = getBudgetTypeBadgeClass(item.Type);
 
       html += `
@@ -844,7 +847,7 @@
             ฿${priceTHB.toLocaleString('th-TH')}
           </td>
           <td class="budget-price-cny">
-            ¥${priceCNY.toLocaleString('zh-CN')}
+            HK$${priceHKD.toLocaleString('zh-CN')}
           </td>
           <td class="budget-note-col">
             ${escapeHTML(item.Note || '-')}
@@ -864,7 +867,7 @@
 
     filtered.forEach(item => {
       const priceTHB = parseFloat(String(item['Price (THB)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
-      const priceCNY = parseFloat(String(item['Price (CNY)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
+      const priceHKD = parseFloat(String(item['Price (HKD)'] || '').replace(/[^0-9.-]+/g, '')) || 0;
       const badgeClass = getBudgetTypeBadgeClass(item.Type);
 
       html += `
@@ -879,8 +882,8 @@
               <span class="price-val">฿${priceTHB.toLocaleString('th-TH')}</span>
             </div>
             <div class="price-chip-cny">
-              <span class="price-label">CNY</span>
-              <span class="price-val">¥${priceCNY.toLocaleString('zh-CN')}</span>
+              <span class="price-label">HKD</span>
+              <span class="price-val">HK$${priceHKD.toLocaleString('zh-CN')}</span>
             </div>
           </div>
           ${item.Note ? `<p class="mobile-card-note">${escapeHTML(item.Note)}</p>` : ''}
