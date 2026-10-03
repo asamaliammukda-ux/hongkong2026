@@ -90,7 +90,7 @@
             {
               "id": "chk_flight_outbound",
               "task": "เที่ยวบินขาไป BKK ✈ HKG (Bangkok -> Hong Kong)",
-              "time_note": "3 ต.ค. 2026 @ 08:40 AM - 11:45 PM (+1)",
+              "time_note": "3 ต.ค. 2026 @ 08:00 AM - 11:45 PM (+1)",
               "channel_note": "สนามบินนานาชาติฮ่องกง (HKG)",
               "badge_text": "Confirmed",
               "badge_type": "success"
